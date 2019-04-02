@@ -12,7 +12,7 @@ This project is intended to start a local mock server with the zip file download
 
 ## Features
 
-- ~~Support API proxying~~
+- Support API proxying
 - ~~Convenient shortcuts~~
 - ~~Support Collaborative editing~~
 - ~~Support team project~~

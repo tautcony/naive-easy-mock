@@ -4,6 +4,7 @@ const Mock = require("mockjs");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const request = require("request-promise-native");
 
 let MOCK_RESOURCES_PATH = path.join(__dirname, 'resources');
 let MOCK_PORT = 2333;
@@ -265,7 +266,7 @@ const build_params = (url) => {
  * @param {Express.Request} req Request
  * @param {Express.Response} res Response
  */
-const mock_handle = (req, res) => {
+const mock_handle = async (req, res) => {
     const url = req.originalUrl.split("?")[0];
     try {
         const params_result = build_params(url);
@@ -275,12 +276,30 @@ const mock_handle = (req, res) => {
             });
             return;
         }
-        const content = fs.readFileSync(params_result.path, 'utf-8');
-        const mock_data = eval(`(${content})`);
+        const content = fs.readFileSync(params_result.path, 'utf-8').trim();
         const _req = generate_req(req, params_result.params);
-        const result = recursive(mock_data, { _req, Mock }, mock_data);
-        console.log(`Handle '${_req.url}' with:\n`, result);
-        res.json(result);
+        if (/http/i.test(content)) {
+            const response = await request({
+                uri: content,
+                method: req.method,
+                qs: req.query,
+                params: req.params
+            }).catch(error => {
+                res.json({ error: "Not Found" });
+            });
+            if (response) {
+                try {
+                    res.json(JSON.parse(response));
+                } catch {
+                    res.send(response);
+                }
+            }
+        } else {
+            const mock_data = eval(`(${content})`);
+            const result = recursive(mock_data, { _req, Mock }, mock_data);
+            console.log(`Handle '${_req.url}' with:\n`, result);
+            res.json(result);
+        }
     } catch (ex) {
         console.log(`Failed to handle '${req.url}' with exception:\n`, ex);
         res.json({
