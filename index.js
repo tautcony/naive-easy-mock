@@ -271,6 +271,7 @@ const mock_handle = async (req, res) => {
     try {
         const params_result = build_params(url);
         if (!params_result.success) {
+            console.log("params failed to build.");
             res.json({
                 error: "Not Found"
             });
@@ -278,13 +279,14 @@ const mock_handle = async (req, res) => {
         }
         const content = fs.readFileSync(params_result.path, 'utf-8').trim();
         const _req = generate_req(req, params_result.params);
-        if (/http/i.test(content)) {
+        if (/^http/i.test(content)) {
             const response = await request({
                 uri: content,
                 method: req.method,
                 qs: req.query,
                 params: req.params
             }).catch(error => {
+                console.log("API Proxy failed", error);
                 res.json({ error: "Not Found" });
             });
             if (response) {
@@ -307,6 +309,8 @@ const mock_handle = async (req, res) => {
         });
     }
 }
+
+app.get(/^\/favicon.ico/i, (req, res) => res.send(""));
 
 app.all(/\/.+/, mock_handle);
 
