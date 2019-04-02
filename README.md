@@ -6,7 +6,7 @@ As [easy-mock](https://github.com/easy-mock/easy-mock) said:
 
 > If you're unable to deploy an Easy Mock service by yourself, the [online service](https://easy-mock.com/) is recommended.
 
-But if you're unable to access the [online service](https://easy-mock.com/) service, the [naïve](https://github.com/easy-mock/easy-mock) version is recommended.
+But if you're unable to access the [online service](https://easy-mock.com/) service, the [naïve version](https://github.com/tautcony/naive-easy-mock) is recommended.
 
 This project is intended to start a local mock server with the zip file download from [easy-mock](https://github.com/easy-mock/easy-mock) and without any complicated deployment.
 
@@ -41,12 +41,14 @@ $ cd naive-easy-mock && npm install
 
 Create the **config.json** file by copying **config-sample.json** and edit it to overwrite default configuration.
 
-default configuration in code is shown as below:
+Default configuration in code is shown as below:
 
 ```js
 const MOCK_RESOURCES_PATH = path.join(__dirname, 'resources');
 const MOCK_PORT = 2333;
 ```
+
+And Decompress api resources into the corresponding folder.
 
 ### Launch
 
