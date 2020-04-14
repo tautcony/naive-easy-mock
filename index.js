@@ -85,7 +85,9 @@ const handle_mockjs_syntax = (key, value, argv, root) => {
         const filtered_value = Mock.mock(template)[name];
         // 仅一个元素则直接处理
         if (TypeOf(filtered_value) === "Array") {
-            filtered_value.forEach(item => filtered_value[item] = value[item]);
+            filtered_value.forEach((item, index) => {
+                filtered_value[index] = Object.assign({}, value[item]);
+            });
             ret_value = recursive(filtered_value, argv, root);
         } else {
             ret_value = recursive(value[filtered_value], argv, root);
