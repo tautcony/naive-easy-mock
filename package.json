@@ -10,14 +10,14 @@
   "author": "TautCony",
   "license": "GPL-3.0",
   "dependencies": {
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "mockjs": "^1.0.1-beta3",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.7"
+    "express": "^4.17.1",
+    "mockjs": "^1.1.0",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^2.0.3"
   }
 }
